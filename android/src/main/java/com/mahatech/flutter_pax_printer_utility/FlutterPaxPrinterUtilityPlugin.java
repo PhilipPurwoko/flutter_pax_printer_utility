@@ -5,12 +5,9 @@ import static java.lang.Byte.parseByte;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Printer;
-
 import androidx.annotation.NonNull;
-
 import com.pax.dal.entity.EFontTypeAscii;
 import com.pax.dal.entity.EFontTypeExtCode;
-
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -18,22 +15,26 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 /** FlutterPaxPrinterUtilityPlugin */
-public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
+public class FlutterPaxPrinterUtilityPlugin
+    implements FlutterPlugin, MethodCallHandler {
+  /// The MethodChannel that will the communication between Flutter and native
+  /// Android
   ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
+  /// This local reference serves to register the plugin with the Flutter Engine
+  /// and unregister it when the Flutter Engine is detached from the Activity
   private MethodChannel channel;
   private static PrinterUtility printerUtility;
   private static QRCodeUtil qrcodeUtility;
 
   @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_pax_printer_utility");
+  public void
+  onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(),
+                                "flutter_pax_printer_utility");
     channel.setMethodCallHandler(this);
     printerUtility =
-            new PrinterUtility(flutterPluginBinding.getApplicationContext());
-            qrcodeUtility = new QRCodeUtil();
+        new PrinterUtility(flutterPluginBinding.getApplicationContext());
+    qrcodeUtility = new QRCodeUtil();
   }
 
   @Override
@@ -47,11 +48,12 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
     } else if (call.method.equals("getStatus")) {
       String status = printerUtility.getStatus();
       result.success(status);
-    }  else if (call.method.equals("printReceipt")) { // instant print receipt
+    } else if (call.method.equals("printReceipt")) { // instant print receipt
       String text = call.argument("text");
       printerUtility.getDal();
       printerUtility.init();
-      printerUtility.fontSet(EFontTypeAscii.FONT_32_48, EFontTypeExtCode.FONT_48_48);
+      printerUtility.fontSet(EFontTypeAscii.FONT_32_48,
+                             EFontTypeExtCode.FONT_48_48);
       printerUtility.spaceSet(parseByte("0"), parseByte("10"));
       printerUtility.setGray(1);
       printerUtility.printStr(text, null);
@@ -59,18 +61,21 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       printerUtility.step(150);
       final String status = printerUtility.start();
       result.success(status);
-    } else if (call.method.equals("printReceiptWithQr")) { // instant print receipt
+    } else if (call.method.equals(
+                   "printReceiptWithQr")) { // instant print receipt
       String text = call.argument("text");
       String qrString = call.argument("qr_string");
       printerUtility.getDal();
       printerUtility.init();
-      printerUtility.fontSet(EFontTypeAscii.FONT_8_16, EFontTypeExtCode.FONT_16_16);
+      printerUtility.fontSet(EFontTypeAscii.FONT_8_16,
+                             EFontTypeExtCode.FONT_16_16);
       printerUtility.spaceSet(parseByte("0"), parseByte("10"));
       printerUtility.setGray(1);
       printerUtility.printStr(text, null);
       printerUtility.printStr("", null);
       if (qrString != null) {
-        printerUtility.printBitmap(qrcodeUtility.encodeAsBitmap(qrString, 512, 512 ));
+        printerUtility.printBitmap(
+            qrcodeUtility.encodeAsBitmap(qrString, 512, 512));
         printerUtility.printStr("", null);
       }
       printerUtility.step(150);
@@ -84,7 +89,8 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       String qrString = call.argument("qr_string");
       printerUtility.getDal();
       printerUtility.init();
-      printerUtility.fontSet(EFontTypeAscii.FONT_8_16, EFontTypeExtCode.FONT_16_16);
+      printerUtility.fontSet(EFontTypeAscii.FONT_8_16,
+                             EFontTypeExtCode.FONT_16_16);
       printerUtility.spaceSet(parseByte("0"), parseByte("10"));
       printerUtility.setGray(1);
       printerUtility.printStr(text1, null);
@@ -92,13 +98,14 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       printerUtility.printStr(text2, null);
       printerUtility.printStr(text3, null);
       printerUtility.printStr("", null);
-      printerUtility.printBitmap(qrcodeUtility.encodeAsBitmap(qrString, 512, 512 ));
+      printerUtility.printBitmap(
+          qrcodeUtility.encodeAsBitmap(qrString, 512, 512));
       printerUtility.printStr("", null);
       printerUtility.printStr(text4, null);
       printerUtility.step(150);
       final String status = printerUtility.start();
       result.success(status);
-    } else if (call.method.equals("init")) { 
+    } else if (call.method.equals("init")) {
       printerUtility.getDal();
       printerUtility.init();
       result.success(true);
@@ -113,25 +120,25 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
         asciiFontType = EFontTypeAscii.FONT_8_16;
       } else if (asciiFontTypeString.equals("FONT_16_24")) {
         asciiFontType = EFontTypeAscii.FONT_16_24;
-      }else if (asciiFontTypeString.equals("FONT_12_24")) {
+      } else if (asciiFontTypeString.equals("FONT_12_24")) {
         asciiFontType = EFontTypeAscii.FONT_12_24;
-      }else if (asciiFontTypeString.equals("FONT_8_32")) {
+      } else if (asciiFontTypeString.equals("FONT_8_32")) {
         asciiFontType = EFontTypeAscii.FONT_8_32;
-      }else if (asciiFontTypeString.equals("FONT_16_48")) {
+      } else if (asciiFontTypeString.equals("FONT_16_48")) {
         asciiFontType = EFontTypeAscii.FONT_16_48;
-      }else if (asciiFontTypeString.equals("FONT_12_48")) {
+      } else if (asciiFontTypeString.equals("FONT_12_48")) {
         asciiFontType = EFontTypeAscii.FONT_12_48;
-      }else if (asciiFontTypeString.equals("FONT_16_16")) {
+      } else if (asciiFontTypeString.equals("FONT_16_16")) {
         asciiFontType = EFontTypeAscii.FONT_16_16;
-      }else if (asciiFontTypeString.equals("FONT_32_24")) {
+      } else if (asciiFontTypeString.equals("FONT_32_24")) {
         asciiFontType = EFontTypeAscii.FONT_32_24;
-      }else if (asciiFontTypeString.equals("FONT_24_24")) {
+      } else if (asciiFontTypeString.equals("FONT_24_24")) {
         asciiFontType = EFontTypeAscii.FONT_24_24;
-      }else if (asciiFontTypeString.equals("FONT_16_32")) {
+      } else if (asciiFontTypeString.equals("FONT_16_32")) {
         asciiFontType = EFontTypeAscii.FONT_16_32;
-      }else if (asciiFontTypeString.equals("FONT_32_48")) {
+      } else if (asciiFontTypeString.equals("FONT_32_48")) {
         asciiFontType = EFontTypeAscii.FONT_32_48;
-      }else if (asciiFontTypeString.equals("FONT_24_48")) {
+      } else if (asciiFontTypeString.equals("FONT_24_48")) {
         asciiFontType = EFontTypeAscii.FONT_24_48;
       } else {
         asciiFontType = EFontTypeAscii.FONT_8_16;
@@ -141,22 +148,22 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
         cFontType = EFontTypeExtCode.FONT_16_16;
       } else if (cFontTypeString.equals("FONT_24_24")) {
         cFontType = EFontTypeExtCode.FONT_24_24;
-      }else if (cFontTypeString.equals("FONT_16_32")) {
+      } else if (cFontTypeString.equals("FONT_16_32")) {
         cFontType = EFontTypeExtCode.FONT_16_32;
-      }else if (cFontTypeString.equals("FONT_24_48")) {
+      } else if (cFontTypeString.equals("FONT_24_48")) {
         cFontType = EFontTypeExtCode.FONT_24_48;
-      }else if (cFontTypeString.equals("FONT_32_16")) {
+      } else if (cFontTypeString.equals("FONT_32_16")) {
         cFontType = EFontTypeExtCode.FONT_32_16;
-      }else if (cFontTypeString.equals("FONT_48_24")) {
+      } else if (cFontTypeString.equals("FONT_48_24")) {
         cFontType = EFontTypeExtCode.FONT_48_24;
-      }else if (cFontTypeString.equals("FONT_32_32")) {
+      } else if (cFontTypeString.equals("FONT_32_32")) {
         cFontType = EFontTypeExtCode.FONT_32_32;
-      }else if (cFontTypeString.equals("FONT_48_48")) {
+      } else if (cFontTypeString.equals("FONT_48_48")) {
         cFontType = EFontTypeExtCode.FONT_48_48;
       } else {
         cFontType = EFontTypeExtCode.FONT_16_16;
       }
-      
+
       printerUtility.fontSet(asciiFontType, cFontType);
       result.success(true);
     } else if (call.method.equals("spaceSet")) {
@@ -182,7 +189,7 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
-          try  {
+          try {
             printerUtility.printBitmap(qrcodeUtility.getBitmapFromURL(url));
             result.success(true);
           } catch (Exception e) {
@@ -192,7 +199,7 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       });
 
       thread.start();
-    }  else if (call.method.equals("printImageAsset")) {
+    } else if (call.method.equals("printImageAsset")) {
       byte[] bytes = call.argument("bitmap");
       Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
       printerUtility.printBitmap(bitmap);
@@ -201,7 +208,8 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       String qrString = call.argument("text");
       int width = call.argument("width");
       int height = call.argument("height");
-      printerUtility.printBitmap(qrcodeUtility.encodeAsBitmap(qrString, width, height ));
+      printerUtility.printBitmap(
+          qrcodeUtility.encodeAsBitmap(qrString, width, height));
       result.success(true);
     } else if (call.method.equals("start")) {
       final String status = printerUtility.start();
