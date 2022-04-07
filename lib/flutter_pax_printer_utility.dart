@@ -14,8 +14,8 @@ class FlutterPaxPrinterUtility {
     return version;
   }
 
-  static Future<bool?> get bindPrinter async {
-    final bool? status = await _channel.invokeMethod('bindPrinter');
+  static Future<String?> get bindPrinter async {
+    final String? status = await _channel.invokeMethod('bindPrinter');
     return status;
   }
 

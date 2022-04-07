@@ -128,7 +128,7 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Running on: $_platformVersion\n'),
-                statusPrinter == '1'
+                statusPrinter == 'Success '
                     ? const Text('Status Printer: Connected')
                     : const Text('Status Printer: Disconnected'),
                 SizedBox(
