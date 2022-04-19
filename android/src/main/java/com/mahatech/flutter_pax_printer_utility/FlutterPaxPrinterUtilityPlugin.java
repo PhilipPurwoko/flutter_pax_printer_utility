@@ -134,7 +134,7 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
       // }else if (asciiFontTypeString.equals("FONT_24_48")) {
       //   asciiFontType = EFontTypeAscii.FONT_24_48;
       } else {
-        asciiFontType = EFontTypeAscii.FONT_8_16;
+        asciiFontType = EFontTypeAscii.FONT_16_24;
       }
 
       if (cFontTypeString.equals("FONT_16_16")) {
