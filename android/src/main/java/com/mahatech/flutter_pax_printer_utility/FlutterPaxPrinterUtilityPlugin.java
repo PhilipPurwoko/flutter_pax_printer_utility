@@ -113,26 +113,26 @@ public class FlutterPaxPrinterUtilityPlugin implements FlutterPlugin, MethodCall
         asciiFontType = EFontTypeAscii.FONT_8_16;
       } else if (asciiFontTypeString.equals("FONT_16_24")) {
         asciiFontType = EFontTypeAscii.FONT_16_24;
-      }else if (asciiFontTypeString.equals("FONT_12_24")) {
-        asciiFontType = EFontTypeAscii.FONT_12_24;
+      // }else if (asciiFontTypeString.equals("FONT_12_24")) {
+      //   asciiFontType = EFontTypeAscii.FONT_12_24;
       }else if (asciiFontTypeString.equals("FONT_8_32")) {
         asciiFontType = EFontTypeAscii.FONT_8_32;
       }else if (asciiFontTypeString.equals("FONT_16_48")) {
         asciiFontType = EFontTypeAscii.FONT_16_48;
-      }else if (asciiFontTypeString.equals("FONT_12_48")) {
-        asciiFontType = EFontTypeAscii.FONT_12_48;
+      // }else if (asciiFontTypeString.equals("FONT_12_48")) {
+      //   asciiFontType = EFontTypeAscii.FONT_12_48;
       }else if (asciiFontTypeString.equals("FONT_16_16")) {
         asciiFontType = EFontTypeAscii.FONT_16_16;
       }else if (asciiFontTypeString.equals("FONT_32_24")) {
         asciiFontType = EFontTypeAscii.FONT_32_24;
-      }else if (asciiFontTypeString.equals("FONT_24_24")) {
-        asciiFontType = EFontTypeAscii.FONT_24_24;
+      // }else if (asciiFontTypeString.equals("FONT_24_24")) {
+      //   asciiFontType = EFontTypeAscii.FONT_24_24;
       }else if (asciiFontTypeString.equals("FONT_16_32")) {
         asciiFontType = EFontTypeAscii.FONT_16_32;
       }else if (asciiFontTypeString.equals("FONT_32_48")) {
         asciiFontType = EFontTypeAscii.FONT_32_48;
-      }else if (asciiFontTypeString.equals("FONT_24_48")) {
-        asciiFontType = EFontTypeAscii.FONT_24_48;
+      // }else if (asciiFontTypeString.equals("FONT_24_48")) {
+      //   asciiFontType = EFontTypeAscii.FONT_24_48;
       } else {
         asciiFontType = EFontTypeAscii.FONT_8_16;
       }
